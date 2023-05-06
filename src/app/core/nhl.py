@@ -45,6 +45,7 @@ def nhl_correlation():
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team2']].dropna(), how='left', left_on='area3', right_on='team2')
     nhl_cities['WL Ratio_area3'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y']].mean(axis=1)
     nhl_cities = nhl_cities.drop(['WL Ratio_x', 'team1', 'WL Ratio_y', 'team2'], axis=1)
+
     nhl_cities['avg WL Ratio'] = nhl_cities[['WL Ratio_area1', 'WL Ratio_area2', 'WL Ratio_area3']].mean(axis=1)
     nhl_cities = nhl_cities[['Population', 'avg WL Ratio']]
 
