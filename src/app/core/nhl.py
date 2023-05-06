@@ -33,18 +33,19 @@ def nhl_correlation():
 
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team1']], how='left', left_on='area1', right_on='team1')
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team2']].dropna(), how='left', left_on='area1', right_on='team2')
-    nhl_cities = nhl_cities.drop(['team1', 'team2'], axis=1)
-    nhl_cities['WL Ratio'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y']].mean(axis=1)
-    nhl_cities = nhl_cities.drop(['WL Ratio_x', 'WL Ratio_y'], axis=1)
+    nhl_cities['WL Ratio_area1'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y']].mean(axis=1)
+    nhl_cities = nhl_cities.drop(['WL Ratio_x', 'team1', 'WL Ratio_y', 'team2'], axis=1)
 
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team1']], how='left', left_on='area2', right_on='team1')
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team2']].dropna(), how='left', left_on='area2', right_on='team2')
-    nhl_cities = nhl_cities.drop(['team1', 'team2'], axis=1)
+    nhl_cities['WL Ratio_area2'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y']].mean(axis=1)
+    nhl_cities = nhl_cities.drop(['WL Ratio_x', 'team1', 'WL Ratio_y', 'team2'], axis=1)
 
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team1']], how='left', left_on='area3', right_on='team1', suffixes=('_a', '_b'))
     nhl_cities = nhl_cities.merge(nhl_df[['WL Ratio', 'team2']].dropna(), how='left', left_on='area3', right_on='team2')
-    nhl_cities = nhl_cities.drop(['team1', 'team2'], axis=1)
-    nhl_cities['avg WL Ratio'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y', 'WL Ratio_a', 'WL Ratio_b', 'WL Ratio']].mean(axis=1)
+    nhl_cities['WL Ratio_area3'] = nhl_cities[['WL Ratio_x', 'WL Ratio_y']].mean(axis=1)
+    nhl_cities = nhl_cities.drop(['WL Ratio_x', 'team1', 'WL Ratio_y', 'team2'], axis=1)
+    nhl_cities['avg WL Ratio'] = nhl_cities[['WL Ratio_area1', 'WL Ratio_area2', 'WL Ratio_area3']].mean(axis=1)
     nhl_cities = nhl_cities[['Population', 'avg WL Ratio']]
 
     population_by_region = nhl_cities['Population'].astype(int).tolist()
